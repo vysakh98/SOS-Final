@@ -153,7 +153,7 @@ left:60%;
 @media only screen and (min-width: 1024px) {
 #add{
 position:absolute;
-left:87%;
+left:85%;
 margin-top:5px;
 }
   
@@ -164,6 +164,14 @@ margin-top:5px;
   width:100px;
   border-bottom:1px solid blue;
 }
+}
+@media only screen and (min-width: 1440px) {
+#add{
+position:absolute;
+left:85%;
+margin-top:5px;
+}
+
   
 }
 </style>
