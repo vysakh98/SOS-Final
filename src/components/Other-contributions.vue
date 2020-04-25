@@ -139,7 +139,7 @@ left:60%;
 @media only screen and (min-width: 1024px) {
 #add{
 position:absolute;
-left:87%;
+left:85%;
 margin-top:5px;
 }
   
