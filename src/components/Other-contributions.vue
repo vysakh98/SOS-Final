@@ -124,7 +124,7 @@ OthersPercent:function(){
 }
 </script>
 
-<style scopped>
+<style>
 .green{
   height:50px;
 }
@@ -171,7 +171,12 @@ position:absolute;
 left:85%;
 margin-top:5px;
 }
-
-  
+}
+@media only screen and (min-width: 2560px) {
+#add{
+position:absolute;
+left:81%;
+margin-top:5px;
+}
 }
 </style>
