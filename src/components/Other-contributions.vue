@@ -92,11 +92,17 @@ props: {
    if(amount==''){
    this.Sum=this.Sum+0
    this.$emit('Subtotal',{total:this.Sum})
+    this.Amount=''
+      this.Organization=''
+      this.Description=''
       }
     else{
     this.Sum=this.Sum-amount
       this.Sum=this.Sum+0
       this.$emit('Subtotal',{total:this.Sum})
+       this.Amount=''
+      this.Organization=''
+      this.Description=''
     }
   }
   else{
