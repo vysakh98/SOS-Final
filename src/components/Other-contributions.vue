@@ -69,8 +69,8 @@ props: {
             {text:'',value:'',sortable:false},
              {text:'Description',value:'Description'},
             {text:'',value:'',sortable:false},
-             {text:'',value:'Amount'},
-             {text:'',value:'del'}
+             {text:'',value:'Amount',sortable:false},
+             {text:'',value:'del',sortable:false}
           ]
 
   }
@@ -88,9 +88,17 @@ props: {
   },
   save(amount){
   if(this.Amount==''){
+   console.log(amount)
+   if(amount==''){
    this.Sum=this.Sum+0
    this.$emit('Subtotal',{total:this.Sum})
       }
+    else{
+    this.Sum=this.Sum-amount
+      this.Sum=this.Sum+0
+      this.$emit('Subtotal',{total:this.Sum})
+    }
+  }
   else{
        this.Sum=this.Sum-amount
       this.Sum=this.Sum+parseInt(this.Amount)
