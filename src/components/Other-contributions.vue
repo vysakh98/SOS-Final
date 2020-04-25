@@ -7,7 +7,11 @@ class="elevation-1">
 <tr :colspan="headers.length">
 <td>OthersSub-Total</td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
 <td><v-chip color="blue">{{Sum}}</v-chip></td>
+<td></td>
 </tr>
 </template>
 <template #top>
@@ -37,6 +41,9 @@ class="elevation-1">
   </template>
 </v-edit-dialog>
 </template>
+<template #item.del="{item}">
+<v-icon @click="deleteitem(item)">delete</v-icon>
+</template>
 </v-data-table>
 </template>
 <script>
@@ -46,32 +53,52 @@ props: {
       type: String
     }
   },
-	data(){
-	return{
+  data(){
+  return{
+  del:'',
   Sum:null,
-  Amount:null,
+  Amount:'',
   Description:'',
   Organization:'',
-	items:[],
-	headers:[ {text: 'Organization',
+  items:[],
+  headers:[ {text: 'Organization',
             align: 'start',
             sortable: false,
             value: 'Organization',},
+             {text:'',value:'',sortable:false},
+            {text:'',value:'',sortable:false},
              {text:'Description',value:'Description'},
-             {text:'',value:'Amount'}
+            {text:'',value:'',sortable:false},
+             {text:'',value:'Amount'},
+             {text:'',value:'del'}
           ]
 
-	}
-	},
+  }
+  },
   methods:{
   add(){
   this.items.push({Organization:'',Description:'',Amount:''})
   },
+  deleteitem(item){
+   const index = this.items.indexOf(item)
+   console.log(index)
+   this.items.splice(index, 1)
+   this.Sum=this.Sum-item.Amount
+   this.$emit('Subtotal',{total:this.Sum})
+  },
   save(amount){
-      console.log(amount)
+  if(this.Amount==''){
+   this.Sum=this.Sum+0
+   this.$emit('Subtotal',{total:this.Sum})
+      }
+  else{
        this.Sum=this.Sum-amount
       this.Sum=this.Sum+parseInt(this.Amount)
       this.$emit('Subtotal',{total:this.Sum})
+      this.Amount=''
+      this.Organization=''
+      this.Description=''
+  }
   }
   },
   computed:{
@@ -89,24 +116,40 @@ OthersPercent:function(){
 }
 #add{
 position:absolute;
-left:89%;
+left:83%;
 margin-top:5px;
 }
 .elevation-1{
-	border:1px solid black;
+  border:1px solid black;
 }
 .btn{
 position:absolute;
 left:60%;
 }
 #footer{
-	border-top:1px solid black;
+  border-top:1px solid black;
 }
 #Oi{
-	border-bottom: 2px solid red;
+  border-bottom: 2px solid red;
 }
 .v-small-dialog__activator{
   width:100px;
   border-bottom:1px solid blue;
+}
+@media only screen and (min-width: 1024px) {
+#add{
+position:absolute;
+left:89%;
+margin-top:5px;
+}
+  
+}
+@media only screen and (min-width: 1024px) {
+
+.v-small-dialog__activator{
+  width:100px;
+  border-bottom:1px solid blue;
+}
+  
 }
 </style>
