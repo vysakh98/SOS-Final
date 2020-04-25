@@ -1,7 +1,7 @@
 <template>
 <v-container id="top-container">
-<v-toolbar class="grey">
-<v-toolbar-title flat class="white--text display-1">Expected Source of Income</v-toolbar-title>
+<v-toolbar class="grey" flat>
+<v-toolbar-title  class="white--text display-1">Expected Source of Income</v-toolbar-title>
 </v-toolbar>
 <v-data-table
 :items="items"
