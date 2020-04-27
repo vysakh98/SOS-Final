@@ -19,7 +19,7 @@ class="elevation-1">
 </v-edit-dialog>
 </template>
 <template #body.append="{headers}">
-<tr :colspan="headers.length">
+<tr>
  <td :colspan="headers.length" id="table-td">
     <subtable :sos="Amount" v-on:Subtotal="Total($event)"></subtable>
  </td>
@@ -55,7 +55,7 @@ class="elevation-1">
 
 
 <script>
-import subtable from '@/components/Othercontributions.vue'
+import subtable from '@/components/OtherContributions.vue'
 export default{
     data()
     {

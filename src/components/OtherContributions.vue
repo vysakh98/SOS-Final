@@ -114,13 +114,7 @@ props: {
       this.Description=''
   }
   }
-  },
-  computed:{
-OthersPercent:function(){
-  let Total=parseInt(this.sos)+this.Sum
-  return Math.round((this.Sum/Total)*100)
   }
-}
 }
 </script>
 
