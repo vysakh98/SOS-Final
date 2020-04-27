@@ -15,7 +15,7 @@ class="elevation-1">
 </tr>
 </template>
 <template #top>
-<div class="green"><p class="display-1 white--text">Other-Contributors<span><v-btn id="add" class="white--text" @click="add"><v-icon class="black--text">add</v-icon></v-btn></span></p></div>
+<div class="top-div"><p class="display-1 white--text">Other-Contributors<span><v-btn id="add" class="white--text" @click="add"><v-icon class="black--text">add</v-icon></v-btn></span></p></div>
 </template>
 <template #item.Amount="{item}">
 <v-edit-dialog @save="save(item.Amount)" :return-value.sync="item.Amount"
@@ -119,8 +119,9 @@ props: {
 </script>
 
 <style>
-.green{
+.top-div{
   height:50px;
+  background-color:grey;
 }
 #add{
 position:absolute;
@@ -158,6 +159,14 @@ margin-top:5px;
   width:100px;
   border-bottom:1px solid blue;
 }
+}
+@media only screen and (min-width: 1299px) {
+#add{
+position:absolute;
+left:89%;
+margin-top:5px;
+}
+  
 }
 @media only screen and (min-width: 1440px) {
 #add{
