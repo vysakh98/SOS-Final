@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import table1 from '@/components/Expected_sos_Income.vue'
+import table1 from '@/components/Expectedsosincome.vue'
 
 Vue.use(VueRouter)
 
