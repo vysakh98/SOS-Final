@@ -1,7 +1,7 @@
 <template>
 <v-container id="top-container">
 <v-toolbar class="grey" flat>
-<v-toolbar-title  class="white--text display-1">Expected Source of Income</v-toolbar-title>
+<v-toolbar-title flat class="white--text display-1">Expected Source of Income</v-toolbar-title>
 </v-toolbar>
 <v-data-table
 :items="items"
@@ -11,15 +11,15 @@ class="elevation-1">
 <td><v-chip color="blue" dark>{{Sospercent}}%</v-chip></td>
 </template>
 <template #item.Amount="{item}">
-<v-edit-dialog :return-value.sync="item.Amount"
-        >{{ item.Amount }}
+<v-edit-dialog class="editdailog" :return-value.sync="item.Amount"
+        ><p class="td">{{ item.Amount}}</p>
   <template #input>
      <v-text-field v-model="Amount" label="Edit" type="number"></v-text-field>
   </template>
 </v-edit-dialog>
 </template>
 <template #body.append="{headers}">
-<tr>
+<tr :colspan="headers.length">
  <td :colspan="headers.length" id="table-td">
     <subtable :sos="Amount" v-on:Subtotal="Total($event)"></subtable>
  </td>
@@ -61,7 +61,7 @@ export default{
     {
     return{
     total:null,
-    Amount:null,
+    Amount:0,
     Organization:'',
     Description:'',
      items:[{Organization:'SOS contribution sought in application',Amount:'',Percent:''}],
@@ -91,15 +91,30 @@ components:{
 },
 computed:{
   ExpectedTotal(){
+  if(this.Amount==0){
+  return 0
+  }
+  else{
   return parseInt(this.Amount)+this.total
+  }
   },
    Sospercent(){
+  if(this.Amount==0){
+  return 0
+  }
+  else{
   let Total=this.total+parseInt(this.Amount)
   return Math.round((this.Amount/Total)*100)
+  }
   },
   OthersPercent:function(){
+  if(this.Amount==0){
+  return 0
+  }
+  else{
   let Total=parseInt(this.Amount)+this.total
   return Math.round((this.total/Total)*100)
+  }
   }
 }
 }
@@ -107,6 +122,10 @@ computed:{
  
 
 <style scoped>
+.editdailog{
+  border-bottom:1px solid blue;
+  width:100px;
+}
 #add{
   position:absolute;
   left:90%;
@@ -127,7 +146,7 @@ thead{
 }
 .v-small-dialog__activator{
   width:100px;
-  border-bottom:1px solid blue;
+  border-bottom:2px solid black;
 }
 #top-container{
   background-color:#dbdbdb;
