@@ -12,7 +12,7 @@ class="elevation-1">
 </template>
 <template #item.Amount="{item}">
 <v-edit-dialog class="editdailog" :return-value.sync="item.Amount"
-        ><p class="td">{{ item.Amount}}</p>
+        >{{ item.Amount}}
   <template #input>
      <v-text-field v-model="Amount" label="Edit" type="number"></v-text-field>
   </template>
@@ -61,7 +61,7 @@ export default{
     {
     return{
     total:null,
-    Amount:0,
+    Amount:null,
     Organization:'',
     Description:'',
      items:[{Organization:'SOS contribution sought in application',Amount:'',Percent:''}],
@@ -91,7 +91,7 @@ components:{
 },
 computed:{
   ExpectedTotal(){
-  if(this.Amount==0){
+  if(this.Amount==null){
   return 0
   }
   else{
@@ -99,7 +99,7 @@ computed:{
   }
   },
    Sospercent(){
-  if(this.Amount==0){
+  if(this.Amount==null){
   return 0
   }
   else{
@@ -108,7 +108,7 @@ computed:{
   }
   },
   OthersPercent:function(){
-  if(this.Amount==0){
+  if(this.Amount==null){
   return 0
   }
   else{

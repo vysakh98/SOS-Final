@@ -6,7 +6,7 @@
 class="elevation-1">
 <template #body.append="{headers}">
 <tr :colspan="headers.length">
-<td>OthersSub-Total</td>
+<td>Others-Sub-Total</td>
 <td></td>
 <td></td>
 <td></td>
@@ -33,7 +33,7 @@ class="elevation-1">
   <td v-if="Amountedit && editindex==items.indexOf(item)">
      <v-text-field @keydown="save($event,item.Amount,item)" v-model="Amount" type="number" placeholder="Amount"></v-text-field>
   </td>
-  <td v-else>{{item.Amount}}</td>
+  <td  v-else>{{item.Amount}}</td>
 </tr>
 </template>
 <template #item.Organization="{item}">
@@ -41,7 +41,7 @@ class="elevation-1">
     <td v-if="Organizationedit && editindex==items.indexOf(item)">
      <v-text-field @keydown="Organizationsave($event,item)" v-model="Organization" placeholder="Organization"></v-text-field>
     </td>
-    <td v-else>{{item.Organization}}</td>
+    <td class="td" v-else>{{item.Organization}}</td>
 </tr>
 </template>
 <template #item.Description="{item}">
@@ -49,7 +49,7 @@ class="elevation-1">
    <td v-if="Descriptionedit && editindex==items.indexOf(item)">
      <v-text-field @keydown="Descriptionsave($event,item)"  v-model="Description" placeholder="Description"></v-text-field>
    </td>
-   <td v-else>{{item.Description}}</td>
+   <td  v-else>{{item.Description}}</td>
 </tr>
 </template>
 <template #item.del="{item}">
@@ -251,7 +251,7 @@ left:60%;
 #Oi{
   border-bottom: 2px solid red;
 }
-.v-small-dialog__activator{
+.td{
   width:150px;
 }
 @media only screen and (min-width: 1024px) {
