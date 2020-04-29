@@ -55,7 +55,7 @@ class="elevation-1">
 
 
 <script>
-import subtable from '@/components/OtherContributions.vue'
+import subtable from '@/components/subtable3.vue'
 export default{
     data()
     {

@@ -23,33 +23,34 @@ class="elevation-1">
 <template #activator="{ on }">
 <v-btn id="add" class="white--text" @click="add" v-on="on"><v-icon class="black--text">add</v-icon></v-btn>
 </template>
-<span>add Row</span>
+<span>add row</span>
 </v-tooltip>
 </span>
 </p></div>
 </template>
 <template #item.Amount="{item}">
-<v-edit-dialog :class="[AmountEditable && editindex==items.indexOf(item) ? editable : noteditable ] "  @save="save(item.Amount)" @cancel="cancel" @open="open" :return-value.sync="item.Amount"><p>{{ item.Amount }}</p>
-  <template class="text-field" v-if="Amountedit && editindex==items.indexOf(item)" #input>
-     <v-text-field   v-model="Amount" label="Edit"  type="number"></v-text-field>
-  </template>
-</v-edit-dialog>
+<tr>
+  <td v-if="Amountedit && editindex==items.indexOf(item)">
+     <v-text-field @keydown="save($event,item.Amount,item)" v-model="Amount" type="number" placeholder="Amount"></v-text-field>
+  </td>
+  <td v-else>{{item.Amount}}</td>
+</tr>
 </template>
 <template #item.Organization="{item}">
-<v-edit-dialog :class="[OrganizationEditable  && editindex==items.indexOf(item) ? editable : noteditable ]" @save="Organizationsave" @cancel="cancel" @open="open" :return-value.sync="item.Organization"
-        ><p>{{ item.Organization }}</p>
-  <template v-if="Organizationedit && editindex==items.indexOf(item)" #input>
-     <v-text-field v-model="Organization" label="Edit"></v-text-field>
-  </template>
-</v-edit-dialog>
+<tr>
+    <td v-if="Organizationedit && editindex==items.indexOf(item)">
+     <v-text-field @keydown="Organizationsave($event,item)" v-model="Organization" placeholder="Organization"></v-text-field>
+    </td>
+    <td v-else>{{item.Organization}}</td>
+</tr>
 </template>
 <template #item.Description="{item}">
-<v-edit-dialog :class="[DescriptionEditable  && editindex==items.indexOf(item) ? editable : noteditable ]"  @save="Descriptionsave" @cancel="cancel" @open="open"  :return-value.sync="item.Description"
-        ><p>{{ item.Description }}</p>
-  <template class="text-field" v-if="Descriptionedit && editindex==items.indexOf(item)" #input>
-     <v-text-field  v-model="Description" label="Edit"></v-text-field>
-  </template>
-</v-edit-dialog>
+<tr>
+   <td v-if="Descriptionedit && editindex==items.indexOf(item)">
+     <v-text-field @keydown="Descriptionsave($event,item)"  v-model="Description" placeholder="Description"></v-text-field>
+   </td>
+   <td v-else>{{item.Description}}</td>
+</tr>
 </template>
 <template #item.del="{item}">
 <v-tooltip bottom>
@@ -66,10 +67,6 @@ class="elevation-1">
 </v-tooltip>
 </template>
 </v-data-table>
-<v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
-      <h1>{{ snackText }}</h1>
-      <v-btn text @click="snack = false">Close</v-btn>
-</v-snackbar>
 </div>
 </template>
 <script>
@@ -82,11 +79,6 @@ props: {
   data(){
   return{
   on:true,
-  editable:'editable',
-  noteiditable:'noteditable',
-  DescriptionEditable:false,
-  OrganizationEditable:false,
-  AmountEditable:false,
   count:-1,
   editindex:null,
   Organizationedit:false,
@@ -116,13 +108,32 @@ props: {
   }
   },
   methods:{
-  Descriptionsave(){
-  this.DescriptionEditable=false
+  Descriptionsave(e,item){
+  if(e.keyCode == 13 ){
+  console.log(e)
+  let index=this.items.indexOf(item)
+  this.items[index].Description=this.Description
   this.Descriptionedit=false
+  }
+  else if(e.keyCode == 9){
+  console.log(e)
+  let index=this.items.indexOf(item)
+  this.items[index].Description=this.Description
+  this.Descriptionedit=false
+  }
   },
-  Organizationsave(){
-  this.OrganizationEditable=false
+  Organizationsave(e,item){
+   if(e.keyCode == 13){
+  let index=this.items.indexOf(item)
+  this.items[index].Organization=this.Organization
   this.Organizationedit=false
+  }
+  else if(e.keyCode == 9){
+   let index=this.items.indexOf(item)
+  this.items[index].Organization=this.Organization
+  this.Organizationedit=false
+
+  }
   },
   edit(item){
   let editindex = this.items.indexOf(item)
@@ -130,14 +141,8 @@ props: {
   this.Organizationedit=true
   this.Amountedit=true
   this.Descriptionedit=true
-  this.DescriptionEditable=true
-  this.OrganizationEditable=true
-  this.AmountEditable=true
   },
   add(){
-  this.DescriptionEditable=true,
-  this.OrganizationEditable=true,
-  this.AmountEditable=true,
   this.count=this.count+1
   this.editindex=this.count
   this.Organizationedit=true,
@@ -153,13 +158,13 @@ props: {
    this.Sum=this.Sum-item.Amount
    this.$emit('Subtotal',{total:this.Sum})
   },
-  save(amount){
+  save(e,amount,item){
   console.log(this.items)
-  this.AmountEditable=false
+  console.log(e)
+  if(e.keyCode === 13 || e.keyCode== 9){
+  let index=this.items.indexOf(item)
+  this.items[index].Amount=this.Amount
   this.Amountedit=false
-  this.snack = true
-  this.snackColor = 'success'
-  this.snackText = 'Data saved'
     if(this.Amount==''){
    console.log(amount)
    if(amount==''){
@@ -185,6 +190,7 @@ props: {
         this.Amount=''
       this.Organization=''
       this.Description=''
+  }
   }
   },
   cancel(){
