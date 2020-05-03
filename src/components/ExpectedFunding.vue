@@ -187,7 +187,6 @@ thead{
   border-bottom:2px solid black;
 }
 #top-container{
-  background-color:#dbdbdb;
   margin-top:10px;
 }
 </style>
