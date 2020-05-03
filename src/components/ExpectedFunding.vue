@@ -11,21 +11,22 @@ class="elevation-1">
 <td><v-chip color="blue" dark>{{Sospercent}}%</v-chip></td>
 </template>
 <template #item.Amount="{item}">
-<v-edit-dialog class="editdailog" :return-value.sync="item.Amount"
-        >{{ item.Amount}}
-  <template #input>
-     <v-text-field v-model="Amount" label="Edit" type="number"></v-text-field>
-  </template>
-</v-edit-dialog>
+<td v-if="editable">
+<v-text-field class="input" @keydown="sosSave($event,item)" v-model="Amount" label="Edit" type="number"></v-text-field>
+</td>
+<td v-else class="input" @click="editable=true">{{item.Amount}}</td>
 </template>
+
 <template #body.append="{headers}">
 <tr :colspan="headers.length">
  <td :colspan="headers.length" id="table-td">
-    <subtable :sos="Amount" v-on:Subtotal="Total($event)"></subtable>
+    <subtable  v-on:Subtotal="Total($event)" v-on:sosContibution="sosAmount($event)"></subtable>
  </td>
 </tr>
 <tr :colspan="headers.length">
 <td id="ext">Expected-total</td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -38,6 +39,8 @@ class="elevation-1">
 </tr>
 <tr :colspan="headers.length">
 <td>Others-percent</td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -60,16 +63,18 @@ export default{
     data()
     {
     return{
+    editable:true,
     total:null,
     Amount:null,
     Organization:'',
     Description:'',
-     items:[{Organization:'SOS contribution sought in application',Amount:'',Percent:''}],
+     items:[{Organization:'SOS contribution sought in application',Amount:null,Percent:''}],
        header:[ {text: '',
             align: 'start',
             sortable: false,
-            value: 'Organization',
-            class:'h'},
+            value: 'Organization'},
+            {text:'',value:'null',sortable: false},
+            {text:'',value:'null',sortable: false},
             {text:'',value:'null',sortable: false},
             {text:'',value:'null',sortable: false},
             {text:'',value:'null',sortable: false},
@@ -82,16 +87,50 @@ export default{
        }
 },
 methods:{
+
+/*if soscontribution is changed update request will be sent */
+
+sosSave(e,item){
+if(e.keyCode == 13 || e.keyCode == 9){
+if(item.Amount!=this.Amount){
+  this.items[0].Amount=this.Amount
+  this.editable=false
+  this.$axios.put(`http://localhost:3000/sos/data/update/${this.Amount}`).then(result=>{
+  console.log(result)
+  })
+  }
+else if(item.Amount==this.Amount){
+  this.editable=false
+  }
+  }
+  },
+
+  /* recives the other contributions total */
+
   Total:function(e){
   this.total=e.total
+  },
+
+  /* recives Soscontribution  from Soscontributions table */
+
+  sosAmount(e){
+  if(e.sosMoney==0){
+  this.Amount=0
+  this.items[0].Amount=this.Amount
   }
+  this.Amount=e.sosMoney
+  this.items[0].Amount=this.Amount
+ },
  },
 components:{
   'subtable':subtable
 },
+
+/*calulate ExpectedTotal Sospercent and Otherspercent according to the changes in required values */
+
 computed:{
   ExpectedTotal(){
-  if(this.Amount==null){
+  if(this.Amount==0){
   return 0
   }
   else{
@@ -99,7 +138,7 @@ computed:{
   }
   },
    Sospercent(){
-  if(this.Amount==null){
+  if(this.Amount==0){
   return 0
   }
   else{
@@ -108,7 +147,7 @@ computed:{
   }
   },
   OthersPercent:function(){
-  if(this.Amount==null){
+  if(this.Amount==0){
   return 0
   }
   else{
@@ -116,14 +155,13 @@ computed:{
   return Math.round((this.total/Total)*100)
   }
   }
-}
+  },
 }
 </script>
  
 
 <style scoped>
-.editdailog{
-  border-bottom:1px solid blue;
+.input{
   width:100px;
 }
 #add{
