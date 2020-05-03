@@ -148,7 +148,7 @@ export default{
   this.Amountedit=true
   this.Descriptionedit=true
   this.submitStatus='post'
-  this.items.push({Othresid:'',Organization:'',Description:'',Amount:''})
+  this.items.push({Othresid:this.Othersid,Organization:'',Description:'',Amount:''})
   let postUrl=`http://localhost:3000/other/data/post/${this.Othersid}/''/''/0/1`
   this.$axios.post(postUrl).then(result=>{
   console.log(result)
@@ -211,7 +211,6 @@ export default{
       this.$emit('Subtotal',{total:this.Sum})
   }
   if(this.submitStatus==='post'){
-  this.items[index].Othresid=this.Othersid
   let editUrl=`http://localhost:3000/other/data/update/all/${this.Othersid}/${this.Organization}/${this.Description}/${this.Amount}/1`
    this.$axios.put(editUrl).then(result=>{
   console.log(result)
