@@ -36,7 +36,7 @@ class="elevation-1">
 <template #item.Amount="{item}">
 <tr>
   <td v-if="Amountedit && editindex==items.indexOf(item)">
-     <v-text-field @keydown="save($event,item.Amount,item)" v-model="Amount" type="number" placeholder="Amount"></v-text-field>
+     <v-text-field @keydown="save($event,item.Amount,item)" v-model="Amount" type="number" :placeholder="item.Amount"></v-text-field>
   </td>
   <td  v-else>{{item.Amount}}</td>
 </tr>
@@ -44,7 +44,7 @@ class="elevation-1">
 <template #item.Organization="{item}">
 <tr>
     <td v-if="Organizationedit && editindex==items.indexOf(item)">
-     <v-text-field  v-model="Organization" placeholder="Organization"></v-text-field>
+     <v-text-field  v-model="Organization" :placeholder="item.Organization">{{item.Organization}}</v-text-field>
     </td>
     <td class="td" v-else>{{item.Organization}}</td>
 </tr>
@@ -52,7 +52,7 @@ class="elevation-1">
 <template #item.Description="{item}">
 <tr>
    <td v-if="Descriptionedit && editindex==items.indexOf(item)">
-     <v-text-field   v-model="Description" placeholder="Description"></v-text-field>
+     <v-text-field   v-model="Description" :placeholder="item.Description">{{item.Description}}</v-text-field>
    </td>
    <td  v-else>{{item.Description}}</td>
 </tr>
